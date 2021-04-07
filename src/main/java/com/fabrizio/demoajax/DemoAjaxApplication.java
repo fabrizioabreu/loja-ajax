@@ -23,6 +23,9 @@ public class DemoAjaxApplication implements CommandLineRunner {
 		
 		SocialMetaTag og = service.getOpenGraphByUrl("https://github.com/fabrizioabreu");
 		System.out.println(og.toString());
+		
+		SocialMetaTag twitter = service.getTwitterCardByUrl("https://www.udemy.com/course/50-projects-50-days/");
+		System.out.println(twitter.toString());
 	}
 
 }
