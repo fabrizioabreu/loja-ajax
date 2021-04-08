@@ -11,14 +11,14 @@ $("#linkPromocao").on('change', function() {
 			url: "/meta/info?url=" + url, // Caminho do SocialMetaTagController
 			cache: false, // Não iremos fazer uso de cache
 			beforeSend: function() {	// Limpando dados do formulário
-				$("#alert").removeClass("alert alert-danger").text("");
+				$("#alert").removeClass("alert alert-danger").text('');
 				$("#titulo").val("");
 				$("#site").text("");
-				$("#linkImagem").attr("src", "/images/promo-dark.png");
+				$("#linkImagem").attr("src", "");
+				$("#loader-img").addClass("loader");
 			},
 			success: function(data) {
 				console.log(data);	// Passamos uma função que vai receber o resultado da operação
-
 				// Acessando o componente HTML que vai receber as informações
 				$("#titulo").val(data.title);
 				$("#site").text(data.site.replace("@", ""));
@@ -29,12 +29,16 @@ $("#linkPromocao").on('change', function() {
 				404: function() {
 					// Adicionando Classe de alerta do Bootstrap
 					$("#alert").addClass("alert alert-danger").text("Nenhuma informação pode ser recuperada dessa url");
+					$("#linkImagem").attr("src", "/images/promo-dark.png");
 				}
 			},
 			error: function() {
 				$("#alert").addClass("alert alert-danger").text("Ops... algo deu errado, tente mais tarde.");
+				$("#linkImagem").attr("src", "/images/promo-dark.png");
+			},
+			complete: function() {
+				$("#loader-img").removeClass("loader");
 			}
-
 		});
 	}
 });
