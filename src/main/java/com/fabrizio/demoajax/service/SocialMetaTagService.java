@@ -16,13 +16,13 @@ public class SocialMetaTagService {
 	private static Logger log = LoggerFactory.getLogger(SocialMetaTagService.class);
 	
 	public SocialMetaTag getSocialMetaTagByUrl(String url) {
-		SocialMetaTag twitter = getTwitterCardByUrl(url);
-		if (!isEmpty(twitter)) {
-			return twitter;
-		}
 		SocialMetaTag openGraph = getOpenGraphByUrl(url);
 		if(!isEmpty(openGraph)) {
 			return openGraph;
+		}
+		SocialMetaTag twitter = getTwitterCardByUrl(url);
+		if (!isEmpty(twitter)) {
+			return twitter;
 		}
 		return null;
 	}
