@@ -12,6 +12,11 @@ $("#linkPromocao").on('change', function(){
 			cache: false, // Não iremos fazer uso de cache
 			success: function( data ) {	
 				console.log(data);	// Passamos uma função que vai receber o resultado da operação
+				
+				// Acessando o componente HTML que vai receber as informações
+				$("#titulo").val(data.title);
+				$('#site').text(data.site.replace("@", ""));
+				$('#linkImagem').attr("src", data.image);
 			}
 		});
 	}
