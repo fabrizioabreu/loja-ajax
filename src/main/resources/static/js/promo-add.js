@@ -1,4 +1,40 @@
-// Funcao para capturar as metatags
+// SUBMIT do formulario para o controller
+$("#form-add-promo").submit(function(evt) {
+	// bloquear o comportamento padrão do submit
+	evt.preventDefault();
+	
+	var promo = {}; 	// Criando obj promo e adicionando valor a cada uma das variáveis
+	promo.linkPromocao = $("#linkPromocao").val();
+	promo.descricao = $("#descricao").val();
+	promo.preco = $("#preco").val();
+	promo.titulo = $("#titulo").val();
+	promo.categoria = $("#categoria").val();
+	promo.linkImage = $("#linkImagem").attr("src");
+	promo.site = $("#site").text();
+	
+	console.log('promo > ', promo);	// Imprime o resultado no console do navegador
+	
+	$.ajax({
+		method: "POST",
+		url: "/promocao/save",
+		data: promo,	// passando os atributos do obj promo
+		success: function() {
+			// Enviando mensagem de sucesso para usuáiro
+			$("#alert").addClass("alert alert-success").text("OK! Promoção cadastrada com sucesso.");
+		},
+		error: function(xhr) {
+			// Capturando mensagem de erro
+			console.log("> error: ", xhr.responseText);
+			$("#alert").addClass("alert alert-danger").text("Não foi possível salvar esta promoção.");
+		}
+	});
+});
+
+
+
+
+
+// Funcao para CAPTURAR as metatags
 $("#linkPromocao").on('change', function() {
 	//Capturnado URL do campo de imput
 	var url = $(this).val();
