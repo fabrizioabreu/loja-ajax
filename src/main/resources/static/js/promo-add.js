@@ -17,6 +17,10 @@ $("#form-add-promo").submit(function (evt) {
 		method: "POST",
 		url: "/promocao/save",
 		data: promo,	// passando os atributos do obj promo
+		beforeSend: function() {
+			$("#form-add-promo").hide();	// Escondendo formulário da página
+			$("#loader-form").addClass("loader").show();	// Mostrando pro usuario o carregamento da página
+		},
 		success: function() {
 			// Limpando todos os campos após salvar o item
 			$("#form-add-promo").each(function() {	 // each do Jquery trata cada objeto do 'form', como se fosse uma lista
@@ -33,6 +37,12 @@ $("#form-add-promo").submit(function (evt) {
 			// Capturando mensagem de erro
 			console.log("> error: ", xhr.responseText);
 			$("#alert").addClass("alert alert-danger").text("Não foi possível salvar esta promoção.");
+		},
+		complete: function() {
+			$("#loader-form").fadeOut(800, function() {		// Escondendo com transição suave
+				$("#form-add-promo").fadeIn(250); 
+				$("#loader-form").removeClass("loader");
+			});	
 		}
 	});
 });
