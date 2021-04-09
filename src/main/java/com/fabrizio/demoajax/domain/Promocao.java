@@ -1,9 +1,17 @@
 package com.fabrizio.demoajax.domain;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 
 import org.springframework.format.annotation.NumberFormat;
 import org.springframework.format.annotation.NumberFormat.Style;
@@ -34,7 +42,7 @@ public class Promocao implements Serializable{
 	
 	@NumberFormat(style = Style.CURRENCY, pattern = "#,##0.00")	// pattern = Anotação de conversão de dados
 	@Column(name = "preco_promocao", nullable = false)
-	private String preco;
+	private BigDecimal preco;
 	
 	@Column(name = "total_likes")
 	private String likes;
@@ -95,11 +103,11 @@ public class Promocao implements Serializable{
 		this.linkImagem = linkImagem;
 	}
 
-	public String getPreco() {
+	public BigDecimal getPreco() {
 		return preco;
 	}
 
-	public void setPreco(String preco) {
+	public void setPreco(BigDecimal preco) {
 		this.preco = preco;
 	}
 

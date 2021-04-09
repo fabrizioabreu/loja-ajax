@@ -9,7 +9,7 @@ $("#form-add-promo").submit(function(evt) {
 	promo.preco = $("#preco").val();
 	promo.titulo = $("#titulo").val();
 	promo.categoria = $("#categoria").val();
-	promo.linkImage = $("#linkImagem").attr("src");
+	promo.linkImagem = $("#linkImagem").attr("src");
 	promo.site = $("#site").text();
 	
 	console.log('promo > ', promo);	// Imprime o resultado no console do navegador
@@ -29,10 +29,6 @@ $("#form-add-promo").submit(function(evt) {
 		}
 	});
 });
-
-
-
-
 
 // Funcao para CAPTURAR as metatags
 $("#linkPromocao").on('change', function() {
