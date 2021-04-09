@@ -1,7 +1,6 @@
 // SUBMIT do formulario para o controller
-$("#form-add-promo").submit(function(evt) {
-	// bloquear o comportamento padrão do submit
-	evt.preventDefault();
+$("#form-add-promo").submit(function (evt) {	
+	evt.preventDefault();	// bloquear o comportamento padrão do submit
 	
 	var promo = {}; 	// Criando obj promo e adicionando valor a cada uma das variáveis
 	promo.linkPromocao = $("#linkPromocao").val();
@@ -19,6 +18,14 @@ $("#form-add-promo").submit(function(evt) {
 		url: "/promocao/save",
 		data: promo,	// passando os atributos do obj promo
 		success: function() {
+			// Limpando todos os campos após salvar o item
+			$("#form-add-promo").each(function() {	 // each do Jquery trata cada objeto do 'form', como se fosse uma lista
+				this.reset();
+			});
+			// Limpando os campos que estão fora do 'form'
+			$("#linkImagem").attr("src", "/images/promo-dark.png");
+			$("#site").text("");
+			
 			// Enviando mensagem de sucesso para usuáiro
 			$("#alert").addClass("alert alert-success").text("OK! Promoção cadastrada com sucesso.");
 		},
@@ -43,7 +50,7 @@ $("#linkPromocao").on('change', function() {
 			url: "/meta/info?url=" + url, // Caminho do SocialMetaTagController
 			cache: false, // Não iremos fazer uso de cache
 			beforeSend: function() {	// Limpando dados do formulário
-				$("#alert").removeClass("alert alert-danger").text('');
+				$("#alert").removeClass("alert alert-danger alert-success").text(''); // Limpando mensagem de erro e sucesso
 				$("#titulo").val("");
 				$("#site").text("");
 				$("#linkImagem").attr("src", "");
