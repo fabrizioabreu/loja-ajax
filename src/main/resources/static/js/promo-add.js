@@ -17,8 +17,8 @@ $("#linkPromocao").on('change', function() {
 				$("#linkImagem").attr("src", "");
 				$("#loader-img").addClass("loader");
 			},
-			success: function(data) {
-				console.log(data);	// Passamos uma função que vai receber o resultado da operação
+			success: function(data) { // data = obj que vai reveber o resultado da operação
+				console.log(data);	// Imprime o resultado no console do navegador
 				// Acessando o componente HTML que vai receber as informações
 				$("#titulo").val(data.title);
 				$("#site").text(data.site.replace("@", ""));
