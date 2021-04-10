@@ -33,6 +33,18 @@ $("#form-add-promo").submit(function (evt) {
 			// Enviando mensagem de sucesso para usuáiro
 			$("#alert").addClass("alert alert-success").text("OK! Promoção cadastrada com sucesso.");
 		},
+		statusCode: {
+			422: function(xhr) {
+				console.log('status error: ', xhr.status);
+				var errors = $.parseJSON(xhr.responseText);		// pegando os campos que não passaram pela regra de validação
+				$.each(errors, function(key, val){
+					$("#" + key).addClass("is-invalid"); // addClass = faz o BootsTrap adicionar a borda vermelha nos campos inválidos
+					$("#error-" + key)
+						.addClass("invalid-feedback")	// Coloca a mensagem com a cor vermelha
+						.append("<span class='error-span'>" + val + "</span>")	// coloca entre a tag DIV a tag que esta dentro do append()
+				});
+			}
+		},
 		error: function(xhr) {
 			// Capturando mensagem de erro
 			console.log("> error: ", xhr.responseText);
