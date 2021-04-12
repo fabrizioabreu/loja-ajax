@@ -10,8 +10,10 @@ import javax.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -35,6 +37,19 @@ public class PromocaoController {
 	private PromocaoRepository promocaoRepository;
 	@Autowired
 	private CategoriaRepository categoriaRepository;
+	
+	// =================================== LISTAR OFERTAS ===================================
+	
+	@GetMapping("/list")
+	public String listarOfertas(ModelMap model) {
+		// ordenando os itens da lista
+		Sort sort = Sort.by(Sort.Direction.DESC, "dtCadastro");
+		// Enviando lista de promoções
+		model.addAttribute("promocoes", promocaoRepository.findAll(sort));
+		return "promo-list";
+	}
+	
+	// ===================================== ADD OFERTAS =====================================
 	
 	// Receber a requisição do SUBMIT e salvar dados do formulário no Banco de Dados
 	@PostMapping("/save")
