@@ -10,6 +10,7 @@ import javax.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -44,8 +45,10 @@ public class PromocaoController {
 	public String listarOfertas(ModelMap model) {
 		// ordenando os itens da lista
 		Sort sort = Sort.by(Sort.Direction.DESC, "dtCadastro");
+		// Criando limite de 8 registro
+		PageRequest pageRequest = PageRequest.of(0, 8, sort);
 		// Enviando lista de promoções
-		model.addAttribute("promocoes", promocaoRepository.findAll(sort));
+		model.addAttribute("promocoes", promocaoRepository.findAll(pageRequest));
 		return "promo-list";
 	}
 	
