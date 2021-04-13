@@ -1,6 +1,6 @@
 var pageNumber = 0;
 
-// EFEITO INFINIT SCROLL
+// ===================================== EFEITO INFINIT SCROLL =====================================
 
 // Rotina de quando abrirmos a página pela primeira vez.
 $(document).ready(function(){
@@ -11,8 +11,10 @@ $(document).ready(function(){
 // Sabendo quando estamos rolando com o scroll do mouse
 $(window).scroll(function() {
 	
-	var scrollTop = $(this).scrollTop();	// pegando valor atual da barra de rolagem
-	var conteudo = $(document).height() - $(window).height();	// valor do conteúdo da página - tamanho da tela
+	var scrollTop = Math.ceil($(this).scrollTop());	// pegando valor atual da barra de rolagem
+	// var conteudo = $(document).height() - $(window).height();	// valor do conteúdo da página - tamanho da tela
+	var conteudo = Math.ceil($(document).height()) - Math.ceil($(window).height());
+	
 	
 	console.log('scrollTop: ', scrollTop, ' | ', 'conteudo', conteudo);
 	
@@ -25,7 +27,7 @@ $(window).scroll(function() {
 	}
  });
 	
-	// Função AJAX para fazer a paginação
+// ===================================== Função AJAX para fazer a paginação =====================================
 function loadByScrollBar(pageNumber) {
 	
 	$.ajax({
@@ -56,3 +58,33 @@ function loadByScrollBar(pageNumber) {
 		}
 	})
 }
+
+// ===================================== ADICIONAR LIKES =====================================
+
+// Reconhecendo o botão que foi clicado pelo ID
+$(document).on("click", "button[id*='likes-btn-']", function() {
+	var id = $(this).attr("id").split("-")[2];
+	console.log("id: ", id);
+	
+	// Fazendo a requisição com AJAX
+	$.ajax({
+		method: "POST",
+		url: "/promocao/like/" + id,
+		success: function(response) {
+			$("#likes-count-" + id).text(response);
+		},
+		error: function(xhr) {
+			alert("Ops, ocorreu um erro: " + xhr.status + ", " + xhr.statusText);
+		}
+	});
+});
+
+
+
+
+
+
+
+
+
+

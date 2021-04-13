@@ -50,7 +50,7 @@ public class Promocao implements Serializable{
 	private BigDecimal preco;
 	
 	@Column(name = "total_likes")
-	private String likes;
+	private int likes;
 	
 	@Column(name = "data_cadastro", nullable = false)
 	private LocalDateTime dtCadastro;
@@ -116,12 +116,12 @@ public class Promocao implements Serializable{
 	public void setPreco(BigDecimal preco) {
 		this.preco = preco;
 	}
-
-	public String getLikes() {
+	
+	public int getLikes() {
 		return likes;
 	}
 
-	public void setLikes(String likes) {
+	public void setLikes(int likes) {
 		this.likes = likes;
 	}
 
