@@ -41,6 +41,15 @@ public class PromocaoController {
 	@Autowired
 	private CategoriaRepository categoriaRepository;
 	
+	// ===================================== AUTOCOMPLETE =====================================
+	
+	// Método que recebe a requisição e retorna a lista com o nome dos sites
+	@GetMapping("/site")
+	public ResponseEntity<?> autocompleteByTermo(@RequestParam("termo") String termo){
+		List<String> sites = promocaoRepository.findSitesByTermo(termo);
+		return ResponseEntity.ok(sites);
+	}
+	
 	// ===================================== ADD LIKES =====================================
 	
 		@PostMapping("/like/{id}")	// {id} = vai receber o valor do id da URL

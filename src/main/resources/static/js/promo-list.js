@@ -59,6 +59,23 @@ function loadByScrollBar(pageNumber) {
 	})
 }
 
+// ===================================== AUTOCOMPLETE =====================================
+$("#autocomplete-input").autocomplete({		// https://jqueryui.com/autocomplete/
+	source: function(request, response) {
+		$.ajax({
+			method: "GET",
+			url: "/promocao/site",
+			data: {
+				// capturando os valores digitados e adicionado a variável termo
+				termo: request.term
+			},
+			success: function(result) {
+				response(result);
+			}
+		});
+	}
+});
+
 // ===================================== ADICIONAR LIKES =====================================
 
 // Reconhecendo o botão que foi clicado pelo ID
