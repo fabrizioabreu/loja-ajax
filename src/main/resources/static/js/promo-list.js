@@ -27,14 +27,15 @@ $(window).scroll(function() {
 	}
  });
 	
-// ===================================== Função AJAX para fazer a paginação =====================================
+// ================================ Função AJAX para fazer a paginação ================================
 function loadByScrollBar(pageNumber) {
-	
+	var site = $("#autocomplete-input").val();	// Recuperando o nome do site que temos no campo de input
 	$.ajax({
 		method: "GET",
 		url: "/promocao/list/ajax",
 		data: {
-			page: pageNumber 
+			page: pageNumber,
+			site: site
 		},
 		beforeSend: function() {
 			$("#loader-img").show();	// Quando a função iniciar, mostramos a imagem de load.
@@ -59,7 +60,9 @@ function loadByScrollBar(pageNumber) {
 	})
 }
 
-// ===================================== AUTOCOMPLETE =====================================
+// =========================================== AUTOCOMPLETE ===========================================
+	
+	// ********* FAZENDO A BUSCA DOS SITES *********
 $("#autocomplete-input").autocomplete({		// https://jqueryui.com/autocomplete/
 	source: function(request, response) {
 		$.ajax({
@@ -76,7 +79,35 @@ $("#autocomplete-input").autocomplete({		// https://jqueryui.com/autocomplete/
 	}
 });
 
-// ===================================== ADICIONAR LIKES =====================================
+	// ********* BOTÃO CONFIRMAR *********
+	
+$("#autocomplete-submit").on("click", function() {
+	var site = $("#autocomplete-input").val();	// Recuperando o nome do site que temos no campo de input
+	$.ajax({
+		method: "GET",
+		url: "/promocao/site/list",
+		data: {
+			site : site	// levando o nome do site, para o lado do servidor
+		},
+		beforeSend: function() {
+			pageNumber = 0;
+			$("#fim-btn").hide();
+			$(".row").fadeOut(400, function() {
+				$(this).empty();	// Limpando os cards da página
+			});
+		},
+		success: function(response) {
+			$(".row").fadeIn(250, function() {
+				$(this).append(response);	// Incluindo os cards na página
+			});
+		},
+		error: function(xhr) {
+			alert("Ops, algo deu errado: " + xhr.status + ", " + xhr.statusText);
+		}
+	});
+});
+	
+// ========================================== ADICIONAR LIKES ===========================================
 
 // Reconhecendo o botão que foi clicado pelo ID
 $(document).on("click", "button[id*='likes-btn-']", function() {

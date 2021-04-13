@@ -41,7 +41,7 @@ public class PromocaoController {
 	@Autowired
 	private CategoriaRepository categoriaRepository;
 	
-	// ===================================== AUTOCOMPLETE =====================================
+	// ===================================== AUTOCOMPLETE ====================================
 	
 	// Método que recebe a requisição e retorna a lista com o nome dos sites
 	@GetMapping("/site")
@@ -50,7 +50,18 @@ public class PromocaoController {
 		return ResponseEntity.ok(sites);
 	}
 	
-	// ===================================== ADD LIKES =====================================
+	@GetMapping("/site/list")
+	public String listarPorSite(@RequestParam("site") String site, ModelMap model) {
+		// ordenando os itens da lista
+		Sort sort = Sort.by(Sort.Direction.DESC, "dtCadastro");
+		// Criando limite de 8 registro
+		PageRequest pageRequest = PageRequest.of(0, 8, sort);
+		// Enviando lista de promoções
+		model.addAttribute("promocoes", promocaoRepository.findBySite(site, pageRequest));
+		return "promo-card";
+	}
+	
+	// ====================================== ADD LIKES ======================================
 	
 		@PostMapping("/like/{id}")	// {id} = vai receber o valor do id da URL
 		public ResponseEntity<?> adicionarLikes(@PathVariable("id") Long id) {	// Capturando da URL o valor ID da promoção
@@ -59,8 +70,7 @@ public class PromocaoController {
 			return ResponseEntity.ok(likes);
 		}
 		
-		
-	// =================================== LISTAR OFERTAS ===================================
+	// =================================== LISTAR OFERTAS ====================================
 	
 	@GetMapping("/list")
 	public String listarOfertas(ModelMap model) {
@@ -74,16 +84,24 @@ public class PromocaoController {
 	}
 	
 	@GetMapping("/list/ajax")
-	public String listarCards(@RequestParam(name = "page", defaultValue = "1") int page, ModelMap model) {
+	public String listarCards(@RequestParam(name = "page", defaultValue = "1") int page,
+								@RequestParam(name = "site", defaultValue = "") String site,
+								ModelMap model) {
 		// ordenando os itens da lista
 		Sort sort = Sort.by(Sort.Direction.DESC, "dtCadastro");
 		// Criando limite de 8 registro
 		PageRequest pageRequest = PageRequest.of(page, 8, sort);
-		// Enviando lista de promoções
-		model.addAttribute("promocoes", promocaoRepository.findAll(pageRequest));
+		
+		if (site.isEmpty()) {
+			// Enviando todas as promoções
+			model.addAttribute("promocoes", promocaoRepository.findAll(pageRequest));
+		}else {
+			// Enviando promoção da busca por nome
+			model.addAttribute("promocoes", promocaoRepository.findBySite(site, pageRequest));
+		}
+		
 		return "promo-card";
 	}
-	
 	
 	// ===================================== ADD OFERTAS =====================================
 	
