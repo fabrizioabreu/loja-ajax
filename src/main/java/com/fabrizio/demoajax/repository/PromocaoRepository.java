@@ -1,5 +1,6 @@
 package com.fabrizio.demoajax.repository;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import org.springframework.data.domain.Page;
@@ -14,6 +15,19 @@ import com.fabrizio.demoajax.domain.Promocao;
 
 public interface PromocaoRepository extends JpaRepository<Promocao, Long> {
 
+// =================================== FAZER BUSTA POR PREÇO ==================================
+	
+	@Query("Select p from Promocao p where p.preco = :preco")
+	Page<Promocao> findByPreco(@Param("preco") BigDecimal preco, Pageable pageable);
+	
+// =================================== FAZER BUSTA POR PARÂMETRO ==================================
+//									   Título | Site | Categoria
+	
+	@Query("select p from Promocao p where p.titulo like %:search% "
+			+ "or p.site like %:search% "
+			+ "or p.categoria.titulo like %:search%")
+	Page<Promocao> findByTituloOrSiteOrCategoria(@Param("search") String search, Pageable pageable);
+	
 // ================================= RETORNANDO LISTA DE PROMOÇÕES ================================
 	
 	@Query("select p from Promocao p where p.site like :site")

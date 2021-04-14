@@ -1,5 +1,6 @@
 package com.fabrizio.demoajax.service;
 
+import java.math.BigDecimal;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -37,11 +38,14 @@ public class PromocaoDataTablesService {
 		// Identificando se a ordenação é ASCENDENTE ou DESCENDENTE
 		Sort.Direction direction = orderBy(request);
 		
+		// Recebe o valor digitado no campo imput
+		String search = searchBy(request);
+		
 		// Montar o Objeto de paginação
 		Pageable pageable = PageRequest.of(current, lenght, direction, column);
 		
 		// Incluir método que faça a consulta no banco de dados
-		Page<Promocao> page = queryBy(repository, pageable);
+		Page<Promocao> page = queryBy(search, repository, pageable);
 		
 		Map<String, Object> json = new LinkedHashMap<>();
 		json.put("draw", draw);	// Incluindo os dados de resposta
@@ -51,8 +55,24 @@ public class PromocaoDataTablesService {
 		return json;
 	}
 
-	private Page<Promocao> queryBy(PromocaoRepository repository, Pageable pageable) {
-		return repository.findAll(pageable);
+	private Page<Promocao> queryBy(String search, PromocaoRepository repository, Pageable pageable) {
+		
+		if (search.isEmpty()) {
+			return repository.findAll(pageable);
+		}
+		// Teste para verificar se a consulta esta sendo feita pelo preço		https://regex101.com/
+		if (search.matches("^[0-9]+([.,][0-9]{2}?$)")) {	// Testando se o valor digitando no campo INPUT é um valor MONETÁRIO
+			search = search.replace(",", ".");
+			return repository.findByPreco(new BigDecimal(search), pageable);
+		}
+		return repository.findByTituloOrSiteOrCategoria(search, pageable);
+	}
+	
+	private String searchBy(HttpServletRequest request) {
+		// Acessando o parâmetro que traz o valor digitado no campo imput
+		return request.getParameter("search[value]").isEmpty()
+				? ""
+				: request.getParameter("search[value]");
 	}
 
 	private Direction orderBy(HttpServletRequest request) {
