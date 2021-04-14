@@ -5,11 +5,13 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Direction;
 
+import com.fabrizio.demoajax.domain.Promocao;
 import com.fabrizio.demoajax.repository.PromocaoRepository;
 
 public class PromocaoDataTablesService {
@@ -38,12 +40,19 @@ public class PromocaoDataTablesService {
 		// Montar o Objeto de paginação
 		Pageable pageable = PageRequest.of(current, lenght, direction, column);
 		
+		// Incluir método que faça a consulta no banco de dados
+		Page<Promocao> page = queryBy(repository, pageable);
+		
 		Map<String, Object> json = new LinkedHashMap<>();
 		json.put("draw", draw);	// Incluindo os dados de resposta
-		json.put("recordsTotal", 0);	// parâmetro que vai retornar a lista de dados
-		json.put("recordsFiltered", 0);
-		json.put("data", null);
+		json.put("recordsTotal", page.getTotalElements());	// parâmetro que vai retornar a lista de dados
+		json.put("recordsFiltered", page.getTotalElements());
+		json.put("data", page.getContent());	// Vai retornar o obj com a lista das promoções
 		return json;
+	}
+
+	private Page<Promocao> queryBy(PromocaoRepository repository, Pageable pageable) {
+		return repository.findAll(pageable);
 	}
 
 	private Direction orderBy(HttpServletRequest request) {

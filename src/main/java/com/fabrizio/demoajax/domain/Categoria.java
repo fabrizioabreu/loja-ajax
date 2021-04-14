@@ -5,6 +5,8 @@ import java.util.List;
 
 import javax.persistence.*;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @SuppressWarnings("serial")
 @Entity
 @Table(name = "categorias")
@@ -18,6 +20,7 @@ public class Categoria implements Serializable{
 	private String titulo;
 	
 	// Relacionamento entre PROMOÇÃO e CATEGORIA - UM para MUITOS
+	@JsonIgnore
 	@OneToMany(mappedBy = "categoria")
 	private List<Promocao> promocoes;
 

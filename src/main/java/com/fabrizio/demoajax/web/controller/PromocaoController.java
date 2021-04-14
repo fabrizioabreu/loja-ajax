@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 import org.slf4j.Logger;
@@ -28,6 +29,7 @@ import com.fabrizio.demoajax.domain.Categoria;
 import com.fabrizio.demoajax.domain.Promocao;
 import com.fabrizio.demoajax.repository.CategoriaRepository;
 import com.fabrizio.demoajax.repository.PromocaoRepository;
+import com.fabrizio.demoajax.service.PromocaoDataTablesService;
 
 @Controller
 @RequestMapping("/promocao")
@@ -40,6 +42,22 @@ public class PromocaoController {
 	private PromocaoRepository promocaoRepository;
 	@Autowired
 	private CategoriaRepository categoriaRepository;
+	
+	// ====================================== DATATABLES =====================================
+	
+	// Método responsável por abrir a página para nós
+	@GetMapping("/tabela")
+	public String showTabela() {
+		return "promo-datatables";
+	}
+	
+	// Receber e responder a requisição AJAX que criamos para o Datatables.
+	
+	@GetMapping("/datatables/server")
+	public ResponseEntity<?> datatables(HttpServletRequest request) {
+		Map<String, Object> data = new PromocaoDataTablesService().execute(promocaoRepository, request);
+		return ResponseEntity.ok(data);
+	}
 	
 	// ===================================== AUTOCOMPLETE ====================================
 	
