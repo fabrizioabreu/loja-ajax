@@ -1,6 +1,6 @@
 // Código dentro do "$(document).ready" será executado pelo jquery logo depois que a página HTML for aberta
 $(document).ready(function(){
-	
+	moment.locale('pt-br');
 	$("#table-server").DataTable({
 		
 		processing: true,	// Informa ao usuário que os dados estão sendo carregados.
@@ -22,7 +22,11 @@ $(document).ready(function(){
 			{data: 'linkImagem'},
 			{data: 'preco', render: $.fn.dataTable.render.number('.', ',', 2, 'R$ ')},	// Formatando para padrão brasileiro
 			{data: 'likes'},
-			{data: 'dtCadastro'},
+			{data: 'dtCadastro', render: 	// Formatando DATA padrão Brasil
+					function(dtCadastro) {
+						return moment( dtCadastro ).format('LLL');
+					}
+			},	
 			{data: 'categoria.titulo'}
 		]
 	});
