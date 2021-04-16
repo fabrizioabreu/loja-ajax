@@ -59,6 +59,13 @@ public class PromocaoController {
 		return ResponseEntity.ok(data);
 	}
 	
+	// Método que vai fazer a exclusão
+	@GetMapping("/delete/{id}")
+	public ResponseEntity<?> excluirPromocao(@PathVariable("id") Long id){
+		promocaoRepository.deleteById(id);
+		return ResponseEntity.ok().build();
+	}
+	
 	// ===================================== AUTOCOMPLETE ====================================
 	
 	// Método que recebe a requisição e retorna a lista com o nome dos sites

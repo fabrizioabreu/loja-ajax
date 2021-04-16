@@ -72,18 +72,34 @@ $(document).ready(function() {
 		}
 	});
 
-	// Capturando o click
+	// Ação do botão EDITAR (abrir janela)
 	$("#btn-editar").on('click', function() {
 		if (isSelectedRow()) {
 			$("#modal-form").modal('show');
 		}
 	});
 
+	// Ação do botão EXCLUIR (abrir janela)
 	$("#btn-excluir").on('click', function() {
 		if (isSelectedRow()) {	
 			$("#modal-delete").modal('show');
 		}
-		
+	});
+	
+	// EXCLUIR uma promoção
+	$("#btn-del-modal").on('click', function() {
+		var id = getPromoId();
+		$.ajax({
+			method: "GET",
+			url: "/promocao/delete/" +id,
+			success: function() {
+				$("#modal-delete").modal('hide');	// Fechando a janela
+				table.ajax.reload();	// Atualizando a tela do navegador
+			},
+			error: function() {
+				alert("Ops... Ocorreu um erro, tente mais tarde.");
+			}
+		});
 	});
 
 	function getPromoId() {
