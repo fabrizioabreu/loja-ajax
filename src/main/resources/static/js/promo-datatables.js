@@ -75,7 +75,34 @@ $(document).ready(function() {
 	// Ação do botão EDITAR (abrir janela)
 	$("#btn-editar").on('click', function() {
 		if (isSelectedRow()) {
-			$("#modal-form").modal('show');
+			var id = getPromoId();	// Pegando o ID
+			
+			// EDITANDO uma promoção
+			$.ajax({
+				method: "GET",
+				url: "/promocao/edit/" + id,
+				beforeSend: function() {
+					$("#modal-form").modal('show');		// Abrindo a janela primiero
+				},
+				success: function( data ) {
+					$("#edt_id").val(data.id);
+					$("#edt_site").text(data.site);
+					$("#edt_titulo").val(data.titulo);
+					$("#edt_descricao").val(data.descricao);
+					$("#edt_preco").val(data.preco.toLocaleString('pt-BR', {
+						minimumFractionDigits: 2,	// Limitando o valor de centavos em 2 casa
+						maximumFractionDigits: 2
+					}));
+					$("#edt_categoria").val(data.categoria.id);
+					$("#edt_linkImagem").val(data.linkImagem);
+					$("#edt_imagem").attr('src',data.linkImagem);
+				},
+				error: function() {
+					alert("Ops... Ocorreu um erro, tente mais novamente.");
+				}
+			});
+			
+			
 		}
 	});
 
@@ -88,7 +115,7 @@ $(document).ready(function() {
 	
 	// EXCLUIR uma promoção
 	$("#btn-del-modal").on('click', function() {
-		var id = getPromoId();
+		var id = getPromoId();	// Pegando o ID
 		$.ajax({
 			method: "GET",
 			url: "/promocao/delete/" +id,

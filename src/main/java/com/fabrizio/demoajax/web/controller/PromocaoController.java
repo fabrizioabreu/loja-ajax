@@ -59,11 +59,18 @@ public class PromocaoController {
 		return ResponseEntity.ok(data);
 	}
 	
-	// Método que vai fazer a exclusão
+	// Método que vai EXCLUIR
 	@GetMapping("/delete/{id}")
 	public ResponseEntity<?> excluirPromocao(@PathVariable("id") Long id){
 		promocaoRepository.deleteById(id);
 		return ResponseEntity.ok().build();
+	}
+	
+	// Método que vai EDITAR
+	@GetMapping("/edit/{id}")
+	public ResponseEntity<?> preEditarPromocao(@PathVariable("id") Long id){
+		Promocao promo = promocaoRepository.findById(id).get();
+		return ResponseEntity.ok(promo);
 	}
 	
 	// ===================================== AUTOCOMPLETE ====================================
