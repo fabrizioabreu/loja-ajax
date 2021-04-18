@@ -129,6 +129,13 @@ $(document).on("click", "button[id*='likes-btn-']", function() {
 
 // ========================================== AJAX REVERSO DWR ===========================================
 var totalOfertas = 0;
+
+// Instrução que manda executar a função init
+$(document).ready(function() {
+	init();
+});
+
+
 // Função que vai abrir a comunicação entre CLIENT e SERVIDOR
 function init() {
 	console.log("dwr init...");
@@ -139,8 +146,8 @@ function init() {
 	DWRAlertaPromocoes.init();	// Método para abrir canal de comunicação entre Client e Servidor
 }
 
-function error(exception) {
-	console.log("dwr error: ", exception);
+function error(excpetion) {
+	console.log("dwr error: ", excpetion);
 }
 
 // Função responsável a receber as informações que o SERVIDOR esta enviando para o CLIENTE
@@ -153,6 +160,33 @@ function showButton(count) {
 	
 }
 
-
+$("#btn-alert").on("click", function() {
+	$.ajax({
+		method: "GET",
+		url: "/promocao/list/ajax",
+		data: {
+			page : 0
+		},
+		beforeSend: function() {
+			pageNumber = 0;
+			totalOfertas = 0;
+			$("#fim-btn").hide();
+			$("#loader-img").addClass("loader");
+			$("#btn-alert").attr("style", "display: none;");
+			$(".row").fadeOut(400, function(){
+				$(this).empty();	// Limpando os cards da página
+			});
+		},
+		success: function(response) {
+			$("#loader-img").removeClass("loader");
+			$(".row").fadeIn(250, function(){
+				$(this).append(response);	// Incluindo os cards na página
+			});
+		},
+		error: function(xhr) {
+			alert("Ops, algo deu errado: " + xhr.status + ", " + xhr.statusText);
+		}
+	});
+});
 
 
