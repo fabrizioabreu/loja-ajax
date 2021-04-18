@@ -82,7 +82,12 @@ $(document).ready(function() {
 				method: "GET",
 				url: "/promocao/edit/" + id,
 				beforeSend: function() {
-					$("#modal-form").modal('show');		// Abrindo a janela primiero
+					// removendo as mensagens
+					$("span").closest('.error-span').remove();
+					// removendo as bordas vermelhas
+					$(".is-invalid").removeClass("is-invalid");
+					// Abrindo a janela
+					$("#modal-form").modal('show');		
 				},
 				success: function( data ) {
 					$("#edt_id").val(data.id);
@@ -101,10 +106,54 @@ $(document).ready(function() {
 					alert("Ops... Ocorreu um erro, tente mais novamente.");
 				}
 			});
-			
-			
 		}
 	});
+
+	// submit do formulario para editar
+	$("#btn-edit-modal").on("click", function() {
+		var promo = {}; 	// Criando obj promo e adicionando valor a cada uma das variáveis
+		promo.descricao = $("#edt_descricao").val();
+		promo.preco = $("#edt_preco").val();
+		promo.titulo = $("#edt_titulo").val();
+		promo.categoria = $("#edt_categoria").val();
+		promo.linkImagem = $("#edt_linkImagem").val();
+		promo.id = $("#edt_id").val();
+		
+		$.ajax({
+			method: "POST",
+			url: "/promocao/edit",
+			data: promo,	// Responsável por enviar a variavel 'promo' para o servidor
+			beforeSend: function() {
+				// removendo as mensagens
+				$("span").closest('.error-span').remove();
+				// removendo as bordas vermelhas
+				$(".is-invalid").removeClass("is-invalid");
+			},
+			success: function() {
+				$("#modal-form").modal("hide");		// Fechando a janela
+				table.ajax.reload();	// Atualizando a tela do navegador
+			},
+			statusCode: {
+				422: function(xhr) {
+					console.log('status error: ', xhr.status);
+					var errors = $.parseJSON(xhr.responseText);		// pegando os campos que não passaram pela regra de validação
+					$.each(errors, function(key, val){
+						$("#edt_" + key).addClass("is-invalid"); // addClass = faz o BootsTrap adicionar a borda vermelha nos campos inválidos
+						$("#error-" + key)
+							.addClass("invalid-feedback")	// Coloca a mensagem com a cor vermelha
+							.append("<span class='error-span'>" + val + "</span>")	// coloca entre a tag DIV a tag que esta dentro do append()
+					});
+				}
+			}
+		});
+	});
+	
+	// Alterando a IMAGEM do componente <img> do modal
+	$("#edt_linkImagem").on('change', function() {
+		var link = $(this).val();	// pegando valor da nova url
+		$("#edt_imagem").attr("src", link);	// Acessando ID da imagem
+	});
+	
 
 	// Ação do botão EXCLUIR (abrir janela)
 	$("#btn-excluir").on('click', function() {
