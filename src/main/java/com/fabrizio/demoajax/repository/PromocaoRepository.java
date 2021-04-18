@@ -1,7 +1,9 @@
 package com.fabrizio.demoajax.repository;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -14,6 +16,16 @@ import org.springframework.transaction.annotation.Transactional;
 import com.fabrizio.demoajax.domain.Promocao;
 
 public interface PromocaoRepository extends JpaRepository<Promocao, Long> {
+	
+	// Verificando se existe novas promoções a partir da última promoção já cadastrada
+	@Query("select count(p.id) as count, max(p.dtCadastro) as lastDate "
+			+ "from Promocao p where p.dtCadastro > :data")
+	Map<String, Object> totalEUltimaPromocaoDeDataCadastro(@Param("data") LocalDateTime data);
+	
+	// Pegando o valor da data mais recente
+	@Query("select p.dtCadastro from Promocao p")
+	Page<LocalDateTime> findUltimaDataDePromocao(Pageable pageable);
+	
 
 // =================================== FAZER BUSTA POR PREÇO ==================================
 	
