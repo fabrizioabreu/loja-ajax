@@ -17,6 +17,7 @@ import com.fabrizio.demoajax.domain.Promocao;
 
 public interface PromocaoRepository extends JpaRepository<Promocao, Long> {
 	
+// ===================================== CONSULTA COM DWR AJAX ====================================
 	// Verificando se existe novas promoções a partir da última promoção já cadastrada
 	@Query("select count(p.id) as count, max(p.dtCadastro) as lastDate "
 			+ "from Promocao p where p.dtCadastro > :data")
@@ -27,7 +28,7 @@ public interface PromocaoRepository extends JpaRepository<Promocao, Long> {
 	Page<LocalDateTime> findUltimaDataDePromocao(Pageable pageable);
 	
 
-// =================================== FAZER BUSTA POR PREÇO ==================================
+// ===================================== FAZER BUSTA POR PREÇO ====================================
 	
 	@Query("Select p from Promocao p where p.preco = :preco")
 	Page<Promocao> findByPreco(@Param("preco") BigDecimal preco, Pageable pageable);

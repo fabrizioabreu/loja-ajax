@@ -127,11 +127,31 @@ $(document).on("click", "button[id*='likes-btn-']", function() {
 	});
 });
 
+// ========================================== AJAX REVERSO DWR ===========================================
+var totalOfertas = 0;
+// Função que vai abrir a comunicação entre CLIENT e SERVIDOR
+function init() {
+	console.log("dwr init...");
+	// Habilitando AJAX REVERSE no lado do cliente
+	dwr.engine.setActiveReverseAjax(true);
+	dwr.engine.setErrorHandler(error);	// Capturando mensagem de erro
+	
+	DWRAlertaPromocoes.init();	// Método para abrir canal de comunicação entre Client e Servidor
+}
 
+function error(exception) {
+	console.log("dwr error: ", exception);
+}
 
-
-
-
+// Função responsável a receber as informações que o SERVIDOR esta enviando para o CLIENTE
+function showButton(count) {
+	totalOfertas = totalOfertas + count;
+	$("#btn-alert").show(function() {	// Exibindo botão na página
+		$(this).attr("style", "display: block;")
+		.text("Veja " + totalOfertas + " nova(s) oferta(s)!");
+	})
+	
+}
 
 
 
