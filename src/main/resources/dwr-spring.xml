@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+ <beans
+  xmlns="http://www.springframework.org/schema/beans"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"  
+  xmlns:dwr="http://www.directwebremoting.org/schema/spring-dwr"
+  xsi:schemaLocation="http://www.springframework.org/schema/beans
+    http://www.springframework.org/schema/beans/spring-beans.xsd
+    http://www.directwebremoting.org/schema/spring-dwr
+    http://www.directwebremoting.org/schema/spring-dwr-3.0.xsd">
+    
+    <!-- Informar ao Spring que temos um arquivo de configuração | mesma coisa se estivessemos usando um @configuration -->
+    <dwr:configuration />	
+    
+    <!-- Informando o pacote onde ele deve pegar as aontações -->
+    <dwr:annotation-scan base-package="com.fabrizio.demoajax.web.dwr"/>
+    
+    <!-- Dizer para dwr que iremos fazer uso de anotações ao invés de configurações quando formos trabalhar com a dwr -->
+	<dwr:annotation-config />    
+ </beans>

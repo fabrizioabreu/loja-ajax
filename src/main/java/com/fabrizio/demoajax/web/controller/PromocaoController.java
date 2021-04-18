@@ -78,15 +78,19 @@ public class PromocaoController {
 	
 	@PostMapping("/edit")
 	public ResponseEntity<?> editarPromocao(@Valid PromocaoDTO dto, BindingResult result) {
-		log.info(dto.toString());
-		if (result.hasErrors()) {			
+		
+		// Testando se algum campo não passou na validação
+		// BindingResult = Se um campo não passar na regra de validação, enviamos para o cliente o campo que não passou na regra
+		if (result.hasErrors()) {
 			Map<String, String> errors = new HashMap<>();
-			for (FieldError error : result.getFieldErrors()) {
-				errors.put(error.getField(), error.getDefaultMessage());
-			}			
-			return ResponseEntity.unprocessableEntity().body(errors);
+			 for (FieldError error : result.getFieldErrors()) {
+				 errors.put(error.getField(), error.getDefaultMessage());
+			 }
+			 // Retornando um método com http status 422
+			 return ResponseEntity.unprocessableEntity().body(errors);
 		}
 		
+		// Trabalhando na opção de update na promoção pelo ID
 		Promocao promo = promocaoRepository.findById(dto.getId()).get();
 		promo.setCategoria(dto.getCategoria());
 		promo.setDescricao(dto.getDescricao());
