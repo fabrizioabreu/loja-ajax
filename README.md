@@ -14,17 +14,21 @@ Paginação da lista de ofertas, para não ocupar muito espaço na tela.
 Ajax reverso, informando ao usuário caso uma nova oferta tenha sido cadastrata enquanto ele esta utilizando o sistema.
 
 # Tecnologias utilizadas
-## Back end
-- Java
-- Spring Boot
-- MVC
-- Thymeleaf
-- Hibernate ORM
-## Front end
+
 - HTML / CSS / JS / TypeScript
-- Bootstrap 4
-- WebJars
-## Implantação em produção
+- Bootstrap
+- Spring Boot
+- AJAX
+- jQuery
+- Thymeleaf
+- MySQL
+- jsoup (Biblioteca utilizada para capturar informações das páginas html)	Documentação:  https://jsoup.org/
+- JPA (para camada de persistência)
+- DATATABLES (Biblioteca para facilitar o uso de tabelas)	https://datatables.net/ 
+- Moment.js (Biblioteca para formatação de data)	https://momentjs.com/
+- DWR (Biblioteca Direct Web Remote) Para utilização de Ajax reverso	http://directwebremoting.org/dwr/index.html
+
+## Banco de dados
 - Banco de dados: MySQL
 
 # Autor
