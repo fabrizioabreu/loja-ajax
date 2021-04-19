@@ -37,21 +37,21 @@ Fabrizio Queiroz de Abreu
 
 https://www.linkedin.com/in/%F0%9F%8E%AFfabrizio-abreu-88925587/
 
-## Modelo conceitual
-![Modelo Conceitual](https://github.com/fabrizioabreu/Demo-Office-Mvc/blob/master/folder/Modelo%20conceitual.png?raw=true)
-
 ## Layout web
-#### Lista de Departamentos
-![Web 1](https://github.com/fabrizioabreu/Demo-Office-Mvc/blob/master/folder/img-01.png?raw=true)
+#### Página inicial - Adicionar promoção
+![Web 1](https://github.com/fabrizioabreu/loja-ajax/blob/master/folder/a1.png)
 
-#### Lista de Cargos Enumerada
-![Web 2](https://github.com/fabrizioabreu/Demo-Office-Mvc/blob/master/folder/img-02.png?raw=true)
+#### Galeria de Promoções
+![Web 2](https://github.com/fabrizioabreu/loja-ajax/blob/master/folder/a2.png)
 
-#### Lista de Funcionários
-![Web 3](https://github.com/fabrizioabreu/Demo-Office-Mvc/blob/master/folder/img-05.png?raw=true)
+#### Aviso de nova oferta adicionada (Ajax Reverse)
+![Web 3](https://github.com/fabrizioabreu/loja-ajax/blob/master/folder/a3.png)
 
-#### Cadastrando Funcionário 
-![Web 4](https://github.com/fabrizioabreu/Demo-Office-Mvc/blob/master/folder/img-03.png?raw=true)
+#### Tabela listada de promoções 
+![Web 4](https://github.com/fabrizioabreu/loja-ajax/blob/master/folder/a4.png)
 
-#### Erro ao não preencher os campos 
-![Web 5](https://github.com/fabrizioabreu/Demo-Office-Mvc/blob/master/folder/img-04.png?raw=true)
+#### Editar Promoção 
+![Web 5](https://github.com/fabrizioabreu/loja-ajax/blob/master/folder/a5.png)
+
+#### Excluir Promoção 
+![Web 5](https://github.com/fabrizioabreu/loja-ajax/blob/master/folder/a6.png)
